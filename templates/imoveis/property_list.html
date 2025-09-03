@@ -1,0 +1,49 @@
+{% extends 'imoveis/base.html' %}
+
+{% block title %}Imóveis Disponíveis{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold">Imóveis Disponíveis</h1>
+                <p class="lead">Encontre o imóvel perfeito para você e sua família</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        {% for property in properties %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card property-card h-100 shadow">
+                {% if property.image %}
+                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <span class="text-white">Sem imagem</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class="card-text text-muted">{{ property.address }}, {{ property.city }}</p>
+                    <p class="card-text">
+                        <strong>R$ {{ property.price|floatformat:2 }}</strong><br>
+                        {{ property.bedrooms }} quartos • {{ property.bathrooms }} banheiros • {{ property.area }}m²
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'property_detail' property.pk %}" class="btn btn-primary w-100">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="lead">Nenhum imóvel disponível no momento.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

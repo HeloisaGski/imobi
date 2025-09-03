@@ -1,0 +1,110 @@
+{% extends 'imoveis/base.html' %}
+
+{% block title %}{{ property.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            {% if property.image %}
+            <img src="{{ property.image.url }}" class="img-fluid rounded mb-4" alt="{{ property.title }}">
+            {% endif %}
+
+            <h1 class="mb-3">{{ property.title }}</h1>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4 class="text-primary">R$ {{ property.price|floatformat:2 }}</h4>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">{{ property.city }}, {{ property.state }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <h5>{{ property.bedrooms }}</h5>
+                        <small class="text-muted">Quartos</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <h5>{{ property.bathrooms }}</h5>
+                        <small class="text-muted">Banheiros</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <h5>{{ property.area }}</h5>
+                        <small class="text-muted">m²</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <h5>{{ property.zip_code }}</h5>
+                        <small class="text-muted">CEP</small>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mb-3">Descrição</h3>
+            <p class="lead">{{ property.description }}</p>
+
+            <h3 class="mb-3">Localização</h3>
+            <p>{{ property.address }}, {{ property.city }} - {{ property.state }}, {{ property.zip_code }}</p>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Interessado neste imóvel?</h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.name.label_tag }}
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="text-danger small">{{ form.name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.phone.label_tag }}
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <div class="text-danger small">{{ form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.message.label_tag }}
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small">{{ form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

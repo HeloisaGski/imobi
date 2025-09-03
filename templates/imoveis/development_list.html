@@ -1,0 +1,18 @@
+{% extends 'imoveis/base.html' %}
+
+{% block title %}Empreendimentos{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="mb-4">Empreendimentos em Lançamento</h1>
+            <p class="lead">Em breve você poderá ver aqui nossos empreendimentos imobiliários.</p>
+            <div class="alert alert-info">
+                <strong>Funcionalidade em desenvolvimento!</strong> Esta página será implementada em breve com a listagem completa de empreendimentos.
+            </div>
+            <a href="{% url 'home' %}" class="btn btn-primary">Voltar ao Início</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
