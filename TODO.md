@@ -41,6 +41,8 @@
 - [x] Atualizar README.md com nova identidade visual
 
 ## Funcionalidades Adicionais
+- [ ] Filtro de valor do imóvel
+- [ ] Disponibilidade de apartamento ou casa
 - [x] Formulário de contato para captação de leads
 - [x] Interface admin para adicionar imóveis e empreendimentos
 - [x] Integração com WhatsApp para contato direto via botão nos imóveis
