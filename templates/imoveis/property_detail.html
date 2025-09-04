@@ -1,110 +1,158 @@
 {% extends 'imoveis/base.html' %}
 
-{% block title %}{{ property.title }}{% endblock %}
+{% block title %}{{ property.title }} - Luxury Realty{% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<section class="hero-luxury">
+    <div class="container text-center">
+        <h1 class="hero-title">{{ property.title }}</h1>
+        <p class="hero-subtitle">{{ property.city }}, {{ property.state }}</p>
+    </div>
+</section>
+
+<section class="container my-5">
     <div class="row">
         <div class="col-lg-8">
-            {% if property.image %}
-            <img src="{{ property.image.url }}" class="img-fluid rounded mb-4" alt="{{ property.title }}">
-            {% endif %}
-
-            <h1 class="mb-3">{{ property.title }}</h1>
-
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h4 class="text-primary">R$ {{ property.price|floatformat:2 }}</h4>
+            <!-- Galeria de Imagens -->
+            <div class="card card-luxury mb-4">
+                {% if property.image %}
+                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}" style="height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="fas fa-home fa-5x text-white"></i>
                 </div>
-                <div class="col-md-6 text-end">
-                    <p class="mb-0">{{ property.city }}, {{ property.state }}</p>
-                </div>
+                {% endif %}
             </div>
 
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <h5>{{ property.bedrooms }}</h5>
-                        <small class="text-muted">Quartos</small>
+            <!-- Informações Principais -->
+            <div class="card card-luxury mb-4">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h2 class="price-luxury mb-0">R$ {{ property.price|floatformat:2 }}</h2>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p class="mb-0 text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ property.city }}, {{ property.state }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <h5>{{ property.bathrooms }}</h5>
-                        <small class="text-muted">Banheiros</small>
+
+                    <!-- Características -->
+                    <div class="row text-center mb-4">
+                        <div class="col-md-3">
+                            <div class="p-3 border-end">
+                                <h4 class="mb-1">{{ property.bedrooms }}</h4>
+                                <small class="text-muted">Quartos</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border-end">
+                                <h4 class="mb-1">{{ property.bathrooms }}</h4>
+                                <small class="text-muted">Banheiros</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border-end">
+                                <h4 class="mb-1">{{ property.area }}</h4>
+                                <small class="text-muted">m²</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="mb-1">{{ property.zip_code }}</h4>
+                                <small class="text-muted">CEP</small>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <h5>{{ property.area }}</h5>
-                        <small class="text-muted">m²</small>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <h5>{{ property.zip_code }}</h5>
-                        <small class="text-muted">CEP</small>
-                    </div>
+
+                    <!-- Descrição -->
+                    <h3 class="mb-3" style="color: var(--text-dark); font-family: 'Playfair Display', serif;">Descrição</h3>
+                    <p class="lead mb-4">{{ property.description }}</p>
+
+                    <!-- Localização -->
+                    <h3 class="mb-3" style="color: var(--text-dark); font-family: 'Playfair Display', serif;">Localização</h3>
+                    <p class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                        {{ property.address }}, {{ property.city }} - {{ property.state }}, {{ property.zip_code }}
+                    </p>
                 </div>
             </div>
-
-            <h3 class="mb-3">Descrição</h3>
-            <p class="lead">{{ property.description }}</p>
-
-            <h3 class="mb-3">Localização</h3>
-            <p>{{ property.address }}, {{ property.city }} - {{ property.state }}, {{ property.zip_code }}</p>
         </div>
 
+        <!-- Sidebar de Contato -->
         <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Interessado neste imóvel?</h5>
-                </div>
+            <div class="card card-luxury sticky-top" style="top: 100px;">
                 <div class="card-body">
+                    <h4 class="card-title text-center mb-4" style="color: var(--text-dark); font-family: 'Playfair Display', serif;">
+                        <i class="fas fa-envelope me-2 text-primary"></i>Interessado neste imóvel?
+                    </h4>
+
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ message }}
+                                <i class="fas fa-check-circle me-2"></i>{{ message }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
                         {% endfor %}
                     {% endif %}
 
-                    <form method="post">
+                    <form method="post" class="mb-4">
                         {% csrf_token %}
                         <div class="mb-3">
-                            {{ form.name.label_tag }}
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-user me-1"></i>{{ form.name.label }}
+                            </label>
                             {{ form.name }}
                             {% if form.name.errors %}
                                 <div class="text-danger small">{{ form.name.errors.0 }}</div>
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            {{ form.email.label_tag }}
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-envelope me-1"></i>{{ form.email.label }}
+                            </label>
                             {{ form.email }}
                             {% if form.email.errors %}
                                 <div class="text-danger small">{{ form.email.errors.0 }}</div>
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            {{ form.phone.label_tag }}
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-phone me-1"></i>{{ form.phone.label }}
+                            </label>
                             {{ form.phone }}
                             {% if form.phone.errors %}
                                 <div class="text-danger small">{{ form.phone.errors.0 }}</div>
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            {{ form.message.label_tag }}
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-comment me-1"></i>{{ form.message.label }}
+                            </label>
                             {{ form.message }}
                             {% if form.message.errors %}
                                 <div class="text-danger small">{{ form.message.errors.0 }}</div>
                             {% endif %}
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Enviar Mensagem</button>
+                        <button type="submit" class="btn btn-luxury w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Enviar Mensagem
+                        </button>
                     </form>
+
+                    {% if property.whatsapp_number and property.get_whatsapp_link %}
+                    <div class="text-center">
+                        <a href="{{ property.get_whatsapp_link }}" target="_blank" class="btn btn-whatsapp-luxury w-100 mb-2">
+                            <i class="fab fa-whatsapp me-2"></i>Falar no WhatsApp
+                        </a>
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>Resposta mais rápida por WhatsApp
+                        </small>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

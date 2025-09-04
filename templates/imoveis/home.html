@@ -1,70 +1,67 @@
 {% extends 'imoveis/base.html' %}
 
-{% block title %}Imobiliária - Página Inicial{% endblock %}
+{% block title %}Luxury Realty - Página Inicial{% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold">Bem-vindo à Nossa Imobiliária</h1>
-                <p class="lead">Encontre o imóvel dos seus sonhos ou conheça nossos empreendimentos em lançamento</p>
-                <div class="mt-4">
-                    <a href="{% url 'property_list' %}" class="btn btn-primary btn-lg me-3">Ver Imóveis</a>
-                    <a href="#empreendimentos" class="btn btn-outline-light btn-lg">Empreendimentos</a>
-                </div>
-            </div>
-        </div>
+<section class="hero-luxury">
+    <div class="container text-center">
+        <h1 class="hero-title">Bem-vindo à Luxury Realty</h1>
+        <p class="hero-subtitle">Imóveis de luxo exclusivos para você</p>
+        <a href="{% url 'property_list' %}" class="btn btn-luxury btn-lg me-3">Ver Imóveis</a>
+        <a href="#empreendimentos" class="btn btn-outline-light btn-lg">Empreendimentos</a>
     </div>
-</div>
+</section>
 
-<div class="container my-5">
+<section class="container my-5">
     <div class="row">
         <div class="col-lg-6">
             <h2 class="mb-4">Imóveis Disponíveis</h2>
-            <p class="lead">Explore nossa seleção de imóveis residenciais e comerciais disponíveis para venda ou locação.</p>
-            <a href="{% url 'property_list' %}" class="btn btn-primary">Ver Todos os Imóveis</a>
+            <p class="lead">Explore nossa seleção exclusiva de imóveis residenciais e comerciais de alto padrão.</p>
+            <a href="{% url 'property_list' %}" class="btn btn-luxury">Ver Todos os Imóveis</a>
         </div>
         <div class="col-lg-6">
             <h2 class="mb-4">Empreendimentos</h2>
             <p class="lead">Conheça nossos lançamentos imobiliários com as melhores condições do mercado.</p>
-            <a href="#empreendimentos" class="btn btn-secondary">Ver Empreendimentos</a>
+            <a href="#empreendimentos" class="btn btn-outline-secondary">Ver Empreendimentos</a>
         </div>
     </div>
-</div>
+</section>
 
-<div id="empreendimentos" class="bg-light py-5">
+<section id="empreendimentos" class="bg-light py-5">
     <div class="container">
         <h2 class="text-center mb-5">Empreendimentos em Lançamento</h2>
         <div class="row">
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card card-luxury h-100">
+                    <img src="https://via.placeholder.com/400x250?text=Residencial+Parque+das+Flores" class="card-img-top" alt="Residencial Parque das Flores">
                     <div class="card-body">
                         <h5 class="card-title">Residencial Parque das Flores</h5>
                         <p class="card-text">Apartamentos de 2 e 3 quartos com vista para o parque.</p>
-                        <p class="text-primary fw-bold">A partir de R$ 250.000</p>
+                        <p class="price-luxury">A partir de R$ 250.000</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card card-luxury h-100">
+                    <img src="https://via.placeholder.com/400x250?text=Condom%C3%ADnio+Vista+Mar" class="card-img-top" alt="Condomínio Vista Mar">
                     <div class="card-body">
                         <h5 class="card-title">Condomínio Vista Mar</h5>
                         <p class="card-text">Casas com vista para o mar em localização privilegiada.</p>
-                        <p class="text-primary fw-bold">A partir de R$ 450.000</p>
+                        <p class="price-luxury">A partir de R$ 450.000</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card card-luxury h-100">
+                    <img src="https://via.placeholder.com/400x250?text=Edif%C3%ADcio+Centro+Empresarial" class="card-img-top" alt="Edifício Centro Empresarial">
                     <div class="card-body">
                         <h5 class="card-title">Edifício Centro Empresarial</h5>
                         <p class="card-text">Salas comerciais no coração da cidade.</p>
-                        <p class="text-primary fw-bold">A partir de R$ 180.000</p>
+                        <p class="price-luxury">A partir de R$ 180.000</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

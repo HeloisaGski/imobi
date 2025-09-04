@@ -12,12 +12,23 @@ class Property(models.Model):
     bathrooms = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Banheiros")
     area = models.IntegerField(verbose_name="Área (m²)")
     image = models.ImageField(upload_to='properties/', blank=True, null=True, verbose_name="Imagem")
+    whatsapp_number = models.CharField(max_length=20, blank=True, null=True, verbose_name="WhatsApp", help_text="Número do WhatsApp (ex: 5511999999999)")
     is_available = models.BooleanField(default=True, verbose_name="Disponível")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
 
     def __str__(self):
         return self.title
+
+    def get_whatsapp_link(self):
+        """Gera link do WhatsApp com mensagem pré-definida"""
+        if self.whatsapp_number:
+            # Remove caracteres não numéricos
+            number = ''.join(filter(str.isdigit, self.whatsapp_number))
+            message = f"Olá! Tenho interesse no imóvel: {self.title} - R$ {self.price:,.2f}. Podemos conversar?"
+            encoded_message = message.replace(' ', '%20').replace('\n', '%0A')
+            return f"https://wa.me/{number}?text={encoded_message}"
+        return None
 
     class Meta:
         verbose_name = "Imóvel"

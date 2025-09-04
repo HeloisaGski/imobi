@@ -1,49 +1,75 @@
 {% extends 'imoveis/base.html' %}
 
-{% block title %}Imóveis Disponíveis{% endblock %}
+{% block title %}Imóveis Disponíveis - Luxury Realty{% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold">Imóveis Disponíveis</h1>
-                <p class="lead">Encontre o imóvel perfeito para você e sua família</p>
-            </div>
-        </div>
+<section class="hero-luxury">
+    <div class="container text-center">
+        <h1 class="hero-title">Imóveis Disponíveis</h1>
+        <p class="hero-subtitle">Encontre o imóvel perfeito para você e sua família</p>
     </div>
-</div>
+</section>
 
-<div class="container my-5">
+<section class="container my-5">
     <div class="row">
         {% for property in properties %}
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card property-card h-100 shadow">
+            <div class="card card-luxury h-100">
                 {% if property.image %}
-                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}" style="height: 200px; object-fit: cover;">
+                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}">
                 {% else %}
-                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <span class="text-white">Sem imagem</span>
+                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <i class="fas fa-home fa-3x text-white"></i>
                 </div>
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ property.title }}</h5>
-                    <p class="card-text text-muted">{{ property.address }}, {{ property.city }}</p>
-                    <p class="card-text">
-                        <strong>R$ {{ property.price|floatformat:2 }}</strong><br>
-                        {{ property.bedrooms }} quartos • {{ property.bathrooms }} banheiros • {{ property.area }}m²
+                    <p class="card-text text-muted mb-2">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ property.address }}, {{ property.city }}
                     </p>
-                </div>
-                <div class="card-footer">
-                    <a href="{% url 'property_detail' property.pk %}" class="btn btn-primary w-100">Ver Detalhes</a>
+                    <div class="row text-center mb-3">
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h6 class="mb-0">{{ property.bedrooms }}</h6>
+                                <small class="text-muted">Quartos</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h6 class="mb-0">{{ property.bathrooms }}</h6>
+                                <small class="text-muted">Banheiros</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h6 class="mb-0">{{ property.area }}</h6>
+                                <small class="text-muted">m²</small>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="price-luxury mb-3">R$ {{ property.price|floatformat:2 }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'property_detail' property.pk %}" class="btn btn-luxury">Ver Detalhes</a>
+                        {% if property.whatsapp_number and property.get_whatsapp_link %}
+                        <a href="{{ property.get_whatsapp_link }}" target="_blank" class="btn btn-whatsapp-luxury">
+                            <i class="fab fa-whatsapp me-2"></i>Falar no WhatsApp
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center">
-            <p class="lead">Nenhum imóvel disponível no momento.</p>
+            <div class="card card-luxury">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-home fa-4x text-muted mb-3"></i>
+                    <h4 class="card-title">Nenhum imóvel disponível</h4>
+                    <p class="card-text">No momento não há imóveis cadastrados. Volte em breve!</p>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
-</div>
+</section>
 {% endblock %}
