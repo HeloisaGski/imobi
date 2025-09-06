@@ -1,144 +1,118 @@
 {% extends 'imoveis/base.html' %}
+{% load static %}
 
-{% block title %}Luxury Realty - Página Inicial{% endblock %}
+{% block title %}Luxury Realty - Imobiliária de Luxo{% endblock %}
 
 {% block content %}
-<section class="hero-luxury">
-    <div class="container text-center">
-        <h1 class="hero-title">Bem-vindo à Luxury Realty</h1>
-        <p class="hero-subtitle">Imóveis de luxo exclusivos para você</p>
-        <a href="{% url 'property_list' %}" class="btn btn-luxury btn-lg me-3">Ver Imóveis</a>
-        <a href="#empreendimentos" class="btn btn-outline-light btn-lg">Empreendimentos</a>
+<!-- Carousel de Imóveis -->
+<div id="propertyCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for property in properties|slice:":5" %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      {% if property.image %}
+      <img src="{{ property.image.url }}" class="d-block w-100" alt="{{ property.title }}" style="height: 500px; object-fit: cover;">
+      {% else %}
+      <div class="d-block w-100 bg-secondary d-flex align-items-center justify-content-center" style="height: 500px;">
+        <i class="fas fa-home fa-6x text-white"></i>
+      </div>
+      {% endif %}
+      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+        <h5>{{ property.title }}</h5>
+        <p>{{ property.city }} - R$ {{ property.price|floatformat:2 }}</p>
+      </div>
     </div>
-</section>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Próximo</span>
+  </button>
+</div>
 
-<!-- Seção do Corretor Principal -->
-<section class="container my-5">
-    <div class="row align-items-center">
-        <div class="col-md-4 text-center">
-            <!-- Foto do corretor a ser inserida -->
-            <img src="{% static 'images/cristiano_domingues.jpg' %}" alt="Cristiano Domingues" class="img-fluid rounded shadow" style="max-height: 300px;">
-        </div>
-        <div class="col-md-8">
-            <h2 class="fw-bold">Henrique Mosconi Imóveis</h2>
-            <h4 class="text-primary mb-3">As melhores casas em condomínio fechado de Londrina estão aqui</h4>
-            <p>Natural de Londrina-PR, pé vermelho de alma e coração. Atuo no mercado imobiliário à mais de 10 anos como consultor imobiliário, ajudando meus clientes a encontrarem o seu novo lar através de um atendimento personalizado. Criando assim, novos relacionamentos, apresentando imóveis especiais para clientes excepcionais!</p>
-        </div>
+<!-- Card do Corretor -->
+<section class="container mb-5">
+  <div class="row align-items-center">
+    <div class="col-md-4 text-center">
+      <img src="/media/properties/fotosite.jpg" alt="Cristiano Domingues" class="img-fluid rounded-circle mb-3" style="max-width: 250px;">
     </div>
-</section>
-
-<!-- Filtro para imóveis -->
-<section class="container my-5">
-    <h3 class="mb-4">Filtrar Imóveis</h3>
-    <form method="get" action="{% url 'property_list' %}" class="row g-3">
-        <div class="col-md-4">
-            <label for="price" class="form-label">Valor Máximo</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="R$">
-        </div>
-        <div class="col-md-4">
-            <label for="city" class="form-label">Cidade</label>
-            <input type="text" class="form-control" id="city" name="city" placeholder="Cidade">
-        </div>
-        <div class="col-md-4">
-            <label for="rental_type" class="form-label">Tipo de Locação</label>
-            <select class="form-select" id="rental_type" name="rental_type">
-                <option value="">Selecione</option>
-                <option value="compra">Compra</option>
-                <option value="aluguel">Aluguel</option>
-            </select>
-        </div>
-        <div class="col-12 text-end">
-            <button type="submit" class="btn btn-luxury">Filtrar</button>
-        </div>
-    </form>
-</section>
-
-<!-- Seção de imóveis principais em destaque -->
-<section class="container my-5">
-    <div class="row">
-        <div class="col-lg-6">
-            <h2 class="mb-4">Imóveis Disponíveis</h2>
-            <p class="lead">Explore nossa seleção exclusiva de imóveis residenciais e comerciais de alto padrão.</p>
-            <a href="{% url 'property_list' %}" class="btn btn-luxury">Ver Todos os Imóveis</a>
-        </div>
-        <div class="col-lg-6">
-            <h2 class="mb-4">Empreendimentos</h2>
-            <p class="lead">Conheça nossos lançamentos imobiliários com as melhores condições do mercado.</p>
-            <a href="#empreendimentos" class="btn btn-outline-secondary">Ver Empreendimentos</a>
-        </div>
+    <div class="col-md-8">
+      <h2>Cristiano Domingues</h2>
+      <h5 class="text-muted">Especialista em imóveis de luxo</h5>
+      <p>Com anos de experiência no mercado imobiliário de luxo, Cristiano Domingues oferece um atendimento personalizado e exclusivo para encontrar o imóvel dos seus sonhos.</p>
+      <a href="mailto:cristiano@luxuryrealty.com" class="btn btn-luxury">Entre em contato</a>
     </div>
+  </div>
 </section>
 
-<section id="empreendimentos" class="bg-light py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Empreendimentos em Lançamento</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card card-luxury h-100">
-                    <img src="https://via.placeholder.com/400x250?text=Residencial+Parque+das+Flores" class="card-img-top" alt="Residencial Parque das Flores">
-                    <div class="card-body">
-                        <h5 class="card-title">Residencial Parque das Flores</h5>
-                        <p class="card-text">Apartamentos de 2 e 3 quartos com vista para o parque.</p>
-                        <p class="price-luxury">A partir de R$ 250.000</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card card-luxury h-100">
-                    <img src="https://via.placeholder.com/400x250?text=Condom%C3%ADnio+Vista+Mar" class="card-img-top" alt="Condomínio Vista Mar">
-                    <div class="card-body">
-                        <h5 class="card-title">Condomínio Vista Mar</h5>
-                        <p class="card-text">Casas com vista para o mar em localização privilegiada.</p>
-                        <p class="price-luxury">A partir de R$ 450.000</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card card-luxury h-100">
-                    <img src="https://via.placeholder.com/400x250?text=Edif%C3%ADcio+Centro+Empresarial" class="card-img-top" alt="Edifício Centro Empresarial">
-                    <div class="card-body">
-                        <h5 class="card-title">Edifício Centro Empresarial</h5>
-                        <p class="card-text">Salas comerciais no coração da cidade.</p>
-                        <p class="price-luxury">A partir de R$ 180.000</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="container my-5">
+<!-- Frases e Ícones -->
+<section class="bg-light py-5">
+  <div class="container">
     <div class="row text-center">
-        <div class="col-md-4 mb-4">
-            <i class="fas fa-lightbulb fa-3x text-primary mb-3"></i>
-            <h4>Apresentação única</h4>
-            <p>Aqui o imóvel anunciado tem o destaque merecido.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-            <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
-            <h4>Atendimento personalizado e exclusivo</h4>
-            <p>Entendendo a necessidade do cliente.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
-            <h4>Experiência e expertise de mercado</h4>
-            <p>Há mais de 10 anos no mercado imobiliário.</p>
-        </div>
+      <div class="col-md-4 mb-4">
+        <i class="fas fa-shield-alt fa-3x mb-3 text-luxury"></i>
+        <h4>Segurança</h4>
+        <p>Garantimos total segurança em todas as transações imobiliárias.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <i class="fas fa-star fa-3x mb-3 text-luxury"></i>
+        <h4>Excelência</h4>
+        <p>Atendimento de alta qualidade para clientes exigentes.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <i class="fas fa-handshake fa-3x mb-3 text-luxury"></i>
+        <h4>Confiança</h4>
+        <p>Construímos relacionamentos duradouros baseados na confiança.</p>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- Seção de cadastro -->
-<section class="container my-5 bg-light p-5 rounded">
-    <h3 class="text-center mb-4">Cadastre-se para receber novidades</h3>
-    <form method="post" action="{% url 'newsletter_signup' %}" class="row g-3 justify-content-center">
-        {% csrf_token %}
-        <div class="col-md-6">
-            <input type="email" name="email" class="form-control form-control-lg" placeholder="Seu melhor e-mail" required>
+<!-- Imóveis em Destaque -->
+<section class="container my-5">
+  <h2 class="mb-4 text-center">Imóveis em Destaque</h2>
+  <div class="row">
+    {% for property in properties|slice:":6" %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card card-luxury h-100">
+        {% if property.image %}
+        <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}">
+        {% else %}
+        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+          <i class="fas fa-home fa-3x text-white"></i>
         </div>
-        <div class="col-md-2 d-grid">
-            <button type="submit" class="btn btn-luxury btn-lg">Cadastrar</button>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ property.title }}</h5>
+          <p class="card-text text-muted mb-2">
+            <i class="fas fa-map-marker-alt me-1"></i>{{ property.address }}, {{ property.city }}
+          </p>
+          <p class="price-luxury mb-3">R$ {{ property.price|floatformat:2 }}</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'property_detail' property.pk %}" class="btn btn-luxury">Ver Detalhes</a>
+            {% if property.whatsapp_number and property.get_whatsapp_link %}
+            <a href="{{ property.get_whatsapp_link }}" target="_blank" class="btn btn-whatsapp-luxury">
+              <i class="fab fa-whatsapp me-2"></i>Falar no WhatsApp
+            </a>
+            {% endif %}
+          </div>
         </div>
-    </form>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <div class="card card-luxury">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-home fa-4x text-muted mb-3"></i>
+          <h4 class="card-title">Nenhum imóvel disponível</h4>
+          <p class="card-text">No momento não há imóveis cadastrados. Volte em breve!</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </section>
 {% endblock %}

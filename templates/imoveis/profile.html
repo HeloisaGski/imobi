@@ -1,0 +1,139 @@
+{% extends 'imoveis/base.html' %}
+
+{% block title %}Perfil - Luxury Realty{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-luxury">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">
+                        <i class="fas fa-user me-2"></i>Meu Perfil
+                    </h2>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Informações da conta</h5>
+                            <p><strong>Usuário:</strong> {{ user.username }}</p>
+                            <p><strong>Email:</strong> {{ user.email|default:"Não informado" }}</p>
+                            <p><strong>Membro desde:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Estatísticas</h5>
+                            <p><strong>Imóveis favoritados:</strong> {{ favorites.count }}</p>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-3">
+                        <i class="fas fa-heart me-2"></i>Meus Favoritos
+                    </h3>
+
+                    {% if favorites %}
+                        <div class="row">
+                            {% for favorite in favorites %}
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="card-luxury h-100">
+                                        {% if favorite.property.image %}
+                                            <img src="{{ favorite.property.image.url }}" class="card-img-top" alt="{{ favorite.property.title }}">
+                                        {% endif %}
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ favorite.property.title }}</h5>
+                                            <p class="price-luxury">R$ {{ favorite.property.price|floatformat:2 }}</p>
+                                            <p class="card-text">{{ favorite.property.city }} - {{ favorite.property.state }}</p>
+                                            <div class="mt-auto">
+                                                <a href="{% url 'property_detail' favorite.property.pk %}" class="btn btn-luxury w-100 mb-2">
+                                                    <i class="fas fa-eye me-1"></i>Ver detalhes
+                                                </a>
+                                                <button class="btn btn-outline-danger w-100 favorite-btn"
+                                                        data-property-id="{{ favorite.property.pk }}"
+                                                        data-favorited="true">
+                                                    <i class="fas fa-heart me-1"></i>Remover favorito
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-heart-broken fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Nenhum imóvel favoritado ainda</h4>
+                            <p class="text-muted">Explore nossos imóveis e adicione seus favoritos!</p>
+                            <a href="{% url 'property_list' %}" class="btn btn-luxury">
+                                <i class="fas fa-building me-1"></i>Ver imóveis
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Profile page loaded, setting up favorite buttons...');
+
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        console.log('Found favorite button for property:', btn.getAttribute('data-property-id'));
+
+        btn.addEventListener('click', function() {
+            const propertyId = this.getAttribute('data-property-id');
+            const isFavorited = this.getAttribute('data-favorited') === 'true';
+            const cardElement = this.closest('.col-lg-4, .col-md-6');
+
+            console.log('Removing favorite for property:', propertyId);
+
+            fetch('{% url "toggle_favorite" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'property_id=' + propertyId
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response received:', data);
+
+                if (data.favorited) {
+                    this.innerHTML = '<i class="fas fa-heart me-1"></i>Remover favorito';
+                    this.className = 'btn btn-outline-danger w-100 favorite-btn';
+                    this.setAttribute('data-favorited', 'true');
+                } else {
+                    if (cardElement) {
+                        console.log('Removing card from page');
+                        cardElement.remove();
+
+                        const countElement = document.querySelector('p strong');
+                        if (countElement && countElement.textContent.includes('Imóveis favoritados:')) {
+                            const currentCount = parseInt(countElement.textContent.match(/\d+/)[0]);
+                            countElement.innerHTML = countElement.innerHTML.replace(/\d+/, currentCount - 1);
+                            console.log('Updated favorites count to:', currentCount - 1);
+                        }
+
+                        const favoritesContainer = document.querySelector('.row');
+                        if (favoritesContainer && favoritesContainer.children.length === 1) {
+                            console.log('No favorites left, reloading page');
+                            location.reload(); // Reload to show empty state
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao atualizar favorito. Tente novamente.');
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

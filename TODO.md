@@ -1,8 +1,7 @@
-# Lista de Tarefas para Luxury Realty - Imobiliária de Luxo (Django + Bootstrap)
+3# Lista de Tarefas para Luxury Realty - Imobiliária de Luxo (Django + Bootstrap)
 
 ## Modelos
 - [x] Definir modelo Property em imoveis/models.py com campos: título, descrição, preço, endereço, imagem, etc.
-- [ ] Adicionar modelo Development (Empreendimento) para lançamentos (placeholder criado)
 - [x] Adicionar campo whatsapp_number no modelo Property para integração com WhatsApp
 
 ## Views
@@ -41,10 +40,27 @@
 - [x] Atualizar README.md com nova identidade visual
 
 ## Funcionalidades Adicionais
-- [ ] Filtro de valor do imóvel
-- [ ] Disponibilidade de apartamento ou casa
 - [x] Formulário de contato para captação de leads
 - [x] Interface admin para adicionar imóveis e empreendimentos
 - [x] Integração com WhatsApp para contato direto via botão nos imóveis
 - [x] Criar usuários corretor para teste
 - [x] Popular banco de dados com imóveis de exemplo
+
+## Sistema de Perfil e Favoritos
+- [x] Adicionar modelo Favorite em imoveis/models.py
+- [x] Adicionar view de perfil mostrando favoritos do usuário
+- [x] Adicionar funcionalidade de alternar favorito (AJAX)
+- [x] Atualizar view property_detail para incluir status de favorito
+- [x] Adicionar padrões de URL de autenticação (login, registro, logout)
+- [x] Adicionar padrões de URL para perfil e favoritos
+- [x] Criar template login.html
+- [x] Criar template register.html
+- [x] Criar template profile.html
+- [x] Atualizar navegação em base.html com links de autenticação
+- [x] Atualizar property_detail.html com botões de favorito
+- [ ] Atualizar property_list.html com botões de favorito (removido conforme solicitação)
+- [x] Registrar modelo Favorite no admin.py
+- [x] Testar registro e login de usuário
+- [x] Testar funcionalidade de favoritar/desfavoritar
+- [x] Testar página de perfil
+- [x] Verificar atualizações na navegação

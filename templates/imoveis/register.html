@@ -1,0 +1,142 @@
+{% extends 'imoveis/base.html' %}
+
+{% block title %}Cadastro - Luxury Realty{% endblock %}
+
+{% block content %}
+<style>
+.register-container {
+    max-width: 400px;
+    margin: 80px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 40px 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.register-header h2 {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.register-header p {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #34495e;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #D4AF37;
+    outline: none;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.btn-register {
+    width: 100%;
+    background: #D4AF37;
+    border: none;
+    padding: 14px 0;
+    border-radius: 50px;
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-register:hover {
+    background: #b38f1a;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register-footer a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-footer a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="register-container">
+    <div class="register-header">
+        <h2>Criar conta</h2>
+        <p>Junte-se à Luxury Realty hoje mesmo</p>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Nome de usuário</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.username.errors %}{{ error }}{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Senha</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.password1.errors %}{{ error }}{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirmar senha</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.password2.errors %}{{ error }}{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-register">Criar minha conta</button>
+    </form>
+
+    <div class="register-footer">
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
+    </div>
+</div>
+{% endblock %}

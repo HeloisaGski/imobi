@@ -26,6 +26,10 @@
             --gradient-luxury: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
         }
 
+        .text-luxury {
+            color: var(--primary-gold) !important;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text-dark);
@@ -330,6 +334,29 @@
                             <i class="fas fa-phone me-1"></i>Contato
                         </a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">
+                            <i class="fas fa-user me-1"></i>Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-1"></i>Sair
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Entrar
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus me-1"></i>Cadastrar
+                        </a>
+                    </li>
+                    {% endif %}
                     {% if user.is_staff %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">

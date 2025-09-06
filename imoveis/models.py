@@ -13,6 +13,7 @@ class Property(models.Model):
     area = models.IntegerField(verbose_name="Área (m²)")
     image = models.ImageField(upload_to='properties/', blank=True, null=True, verbose_name="Imagem")
     whatsapp_number = models.CharField(max_length=20, blank=True, null=True, verbose_name="WhatsApp", help_text="Número do WhatsApp (ex: 5511999999999)")
+    rental_type = models.CharField(max_length=20, choices=[('compra', 'Compra'), ('aluguel', 'Aluguel')], default='compra', verbose_name="Tipo de Locação")
     is_available = models.BooleanField(default=True, verbose_name="Disponível")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
@@ -50,3 +51,29 @@ class Contact(models.Model):
         verbose_name = "Contato"
         verbose_name_plural = "Contatos"
         ordering = ['-created_at']
+
+class NewsletterSignup(models.Model):
+    email = models.EmailField(unique=True, verbose_name="Email")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Cadastrado em")
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Inscrição Newsletter"
+        verbose_name_plural = "Inscrições Newsletter"
+        ordering = ['-created_at']
+
+class Favorite(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name="Usuário")
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, verbose_name="Imóvel")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Adicionado em")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.property.title}"
+
+    class Meta:
+        verbose_name = "Favorito"
+        verbose_name_plural = "Favoritos"
+        ordering = ['-created_at']
+        unique_together = ['user', 'property']

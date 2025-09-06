@@ -11,14 +11,19 @@ Site premium de imobiliária desenvolvido com Django e design luxuoso, incluindo
 - ✅ **Formulário de Contato**: Captação de leads
 - ✅ **Painel Administrativo**: Interface completa para gerenciar imóveis
 - ✅ **Sistema de Usuários**: Autenticação e perfis de corretores
+- ✅ **Sistema de Favoritos**: Usuários podem favoritar imóveis (AJAX)
+- ✅ **Carousel de Imóveis**: Destaques na página inicial
+- ✅ **Perfil do Usuário**: Página pessoal com imóveis favoritados
 - ✅ **Templates Dinâmicos**: Páginas responsivas e otimizadas
+- ✅ **Newsletter**: Sistema de inscrição para novidades
+- ✅ **Seção do Corretor**: Perfil profissional com foto personalizada
 
 ### 🔄 Próximas Implementações
 - 🔄 **Empreendimentos**: Sistema de lançamentos imobiliários
 - 🔄 **Busca Avançada**: Filtros por preço, localização, tipo
 - 🔄 **Galeria de Imagens**: Múltiplas fotos por imóvel
 - 🔄 **API WhatsApp Business**: Integração profissional
-- 🔄 **Sistema de Favoritos**: Usuários podem salvar imóveis
+- 🔄 **Sistema de Mensagens**: Comunicação interna
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -97,22 +102,27 @@ Acesse: http://127.0.0.1:8000/
 ```
 meuimobiliaria/
 ├── imoveis/                    # App principal
-│   ├── models.py              # Modelos (Property)
-│   ├── views.py               # Views (property_list, property_detail)
+│   ├── models.py              # Modelos (Property, Favorite)
+│   ├── views.py               # Views (property_list, property_detail, profile, auth)
 │   ├── urls.py                # URLs do app
 │   ├── forms.py               # Formulários de contato
 │   ├── admin.py               # Configuração do admin
 │   └── migrations/            # Migrações do banco
 ├── templates/
 │   └── imoveis/              # Templates HTML
-│       ├── base.html         # Template base
-│       ├── home.html         # Página inicial
+│       ├── base.html         # Template base com navegação
+│       ├── home.html         # Página inicial com carousel
 │       ├── property_list.html # Lista de imóveis
-│       └── property_detail.html # Detalhes do imóvel
+│       ├── property_detail.html # Detalhes do imóvel
+│       ├── login.html        # Página de login
+│       ├── register.html     # Página de registro
+│       └── profile.html      # Perfil do usuário
 ├── meuimobiliaria/           # Configurações do projeto
 │   ├── settings.py           # Configurações Django
 │   ├── urls.py               # URLs principais
 │   └── wsgi.py               # Configuração WSGI
+├── media/
+│   └── properties/           # Imagens dos imóveis
 ├── populate_data.py          # Script para popular BD
 ├── WHATSAPP_INTEGRATION.md   # Documentação WhatsApp
 ├── TODO.md                   # Lista de tarefas
@@ -122,26 +132,42 @@ meuimobiliaria/
 ## 🎨 Páginas do Site
 
 ### Página Inicial (`/`)
-- Destaques de imóveis
-- Navegação principal
-- Call-to-action
+- Carousel de imóveis em destaque
+- Seção do corretor Cristiano Domingues
+- Valores da empresa (segurança, excelência, confiança)
+- Imóveis em destaque
+- Navegação principal responsiva
 
 ### Lista de Imóveis (`/imoveis/`)
 - Grid responsivo de imóveis
 - Cards com informações principais
 - Botão WhatsApp em cada imóvel
-- Filtros básicos
+- Filtros por preço, cidade e tipo
+- Sistema de paginação
 
 ### Detalhes do Imóvel (`/imoveis/<id>/`)
 - Galeria de imagens
-- Informações completas
+- Informações completas do imóvel
 - Formulário de contato
 - Botão WhatsApp
-- Localização
+- Botão de favoritar (para usuários logados)
+- Localização e mapa
+
+### Sistema de Autenticação
+- **Login** (`/login/`): Página de login elegante
+- **Registro** (`/register/`): Formulário de cadastro de usuário
+- **Logout**: Funcionalidade de sair da conta
+
+### Perfil do Usuário (`/profile/`)
+- Lista de imóveis favoritados
+- Opção de remover favoritos
+- Informações do perfil
+- Navegação personalizada
 
 ### Painel Admin (`/admin/`)
 - Gerenciamento completo de imóveis
 - Sistema de usuários
+- Gerenciamento de favoritos
 - Estatísticas básicas
 
 ## 🔧 Configurações Importantes
@@ -184,45 +210,4 @@ O script `populate_data.py` cria:
 - **6 imóveis**: Apartamentos, casas, cobertura, studio
 - **Números WhatsApp**: Para teste da integração
 
-## 🚀 Deploy para Produção
 
-### 1. Configurar PostgreSQL
-```bash
-# settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'imobiliaria_db',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-### 2. Configurar Arquivos Estáticos
-```bash
-python manage.py collectstatic
-```
-
-### 3. Configurar Servidor Web
-- Nginx + Gunicorn
-- Apache + mod_wsgi
-- Heroku
-- DigitalOcean App Platform
-
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-1. Verifique a documentação em `WHATSAPP_INTEGRATION.md`
-2. Consulte os logs do Django
-3. Verifique as configurações em `settings.py`
-
-## 📝 Licença
-
-Este projeto é propriedade da imobiliária. Uso interno autorizado.
-
----
-
-**Desenvolvido para maximizar vendas imobiliárias**

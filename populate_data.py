@@ -56,7 +56,9 @@ def create_properties():
             'bedrooms': 3,
             'bathrooms': 2.0,
             'area': 85,
+            'image': 'properties/casa3.jpeg',
             'whatsapp_number': '5511999999999',
+            'rental_type': 'compra',
         },
         {
             'title': 'Casa com Piscina - Jardim América',
@@ -69,7 +71,9 @@ def create_properties():
             'bedrooms': 4,
             'bathrooms': 3.0,
             'area': 300,
+            'image': 'properties/casa4.jpg',
             'whatsapp_number': '5511988888888',
+            'rental_type': 'compra',
         },
         {
             'title': 'Cobertura Duplex - Vila Madalena',
@@ -82,7 +86,9 @@ def create_properties():
             'bedrooms': 3,
             'bathrooms': 2.5,
             'area': 180,
+            'image': 'properties/casa5.webp',
             'whatsapp_number': '5511977777777',
+            'rental_type': 'compra',
         },
         {
             'title': 'Studio Moderno - Pinheiros',
@@ -95,7 +101,9 @@ def create_properties():
             'bedrooms': 1,
             'bathrooms': 1.0,
             'area': 35,
+            'image': 'properties/casa6.jpg',
             'whatsapp_number': '5511966666666',
+            'rental_type': 'aluguel',
         },
         {
             'title': 'Casa de Praia - Ubatuba',
@@ -108,7 +116,9 @@ def create_properties():
             'bedrooms': 3,
             'bathrooms': 2.0,
             'area': 150,
+            'image': 'properties/casa7.jpg',
             'whatsapp_number': '5511955555555',
+            'rental_type': 'compra',
         },
         {
             'title': 'Apartamento 2 Quartos - Moema',
@@ -121,14 +131,25 @@ def create_properties():
             'bedrooms': 2,
             'bathrooms': 1.0,
             'area': 65,
+            'image': 'properties/casa8.webp',
             'whatsapp_number': '5511944444444',
+            'rental_type': 'compra',
         },
     ]
 
     for prop_data in properties_data:
-        if not Property.objects.filter(title=prop_data['title']).exists():
-            property_obj = Property.objects.create(**prop_data)
+        property_obj, created = Property.objects.get_or_create(
+            title=prop_data['title'],
+            defaults=prop_data
+        )
+        if created:
             print(f"✓ Imóvel '{property_obj.title}' criado - R$ {property_obj.price:,.2f}")
+        else:
+            # Update existing property with image if it doesn't have one
+            if not property_obj.image and 'image' in prop_data:
+                property_obj.image = prop_data['image']
+                property_obj.save()
+                print(f"✓ Imóvel '{property_obj.title}' atualizado com imagem")
 
 def main():
     """Função principal"""
