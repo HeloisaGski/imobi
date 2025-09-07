@@ -22,4 +22,3 @@ class NewsletterSignupAdmin(admin.ModelAdmin):
     search_fields = ('email',)
     readonly_fields = ('created_at',)
 
-# Register your models here.
